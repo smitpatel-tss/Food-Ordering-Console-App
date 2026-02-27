@@ -1,0 +1,113 @@
+package services;
+
+import exceptions.OrderNotFoundException;
+import exceptions.UserNotFoundException;
+import model.Notification;
+import model.Order;
+import model.OrderStatus;
+import model.users.DeliveryPartner;
+import model.users.User;
+import repositories.DiscountRepository;
+import repositories.OrderRepository;
+import utils.Validate;
+
+import java.util.List;
+
+public class DeliveryPartnerService {
+    private DeliveryPartner deliveryPartner;
+    private DeliveryPartnerManager deliveryPartnerManager;
+    private OrderManager orderManager;
+    private OrderService orderService;
+    private OrderRepository orderRepository;
+    private UserService userService;
+    private NotificationService notificationService;
+
+    public DeliveryPartnerService(User deliveryPartner) {
+        this.deliveryPartner =(DeliveryPartner) deliveryPartner;
+        deliveryPartnerManager = DeliveryPartnerManager.getInstance();
+        orderManager = OrderManager.getOrderManagerInstance();
+        orderRepository = OrderRepository.getInstance();
+        userService = new UserService();
+        notificationService = NotificationService.getInstance();
+    }
+
+    public DeliveryPartner getDeliveryPartner() {
+        return deliveryPartner;
+    }
+
+    public void setDeliveryPartner(DeliveryPartner deliveryPartner) {
+        this.deliveryPartner = deliveryPartner;
+    }
+
+    public void welcomeDisplay() {
+        System.out.println("\n________________________________________________________");
+        System.out.println("Hii, " + deliveryPartner.getName() + "\nWelcome!");
+    }
+
+    public void printOrdersHistory() {
+        List<Order> orders = orderRepository.ordersFromDeliveryAgentId(deliveryPartner.getId());
+
+        System.out.println("ORDER HISTORY:");
+        orderRepository.displayOrders(orders);
+    }
+
+    public DeliveryPartner deliveryPartnerLogIn() {
+        User deliveryPartner = userService.authenticateUser();
+        if (deliveryPartner == null) {
+            throw new UserNotFoundException("No Delivery Partner Found!");
+        }
+        return (DeliveryPartner) deliveryPartner;
+    }
+
+    public void confirmDelivery() {
+        List<Order> pendingOrders = orderRepository
+                .getOrderFromStatus(OrderStatus.OUT_FOR_DELIVERY,
+                        orderRepository
+                                .ordersFromDeliveryAgentId(deliveryPartner.getId()));
+
+        if (pendingOrders == null) {
+            System.out.println("Order not found!");
+            return;
+        }
+        System.out.println("PENDING ORDERS: ");
+        orderRepository.displayOrders(pendingOrders);
+        System.out.print("\nType Order Id to Confirm Delivery: ");
+        long orderId = Validate.validatePositiveLong();
+
+        Order confirmOrder = null;
+        for (Order order : pendingOrders) {
+            if (order.getOrderId() == orderId) {
+                confirmOrder = order;
+            }
+        }
+
+        if (confirmOrder == null) {
+            throw new OrderNotFoundException("No Order Found with id " + orderId + "!");
+        }
+        confirmOrder.ChangeState(OrderStatus.DELIVERED);
+
+        notificationService.sendNotification(
+                confirmOrder.getCustomerId(),
+                "Your Order Is Delivered... Order id: " + confirmOrder.getOrderId(),
+                "DELIVERY PARTNER"
+        );
+        System.out.println("Order Delivered...");
+
+        deliveryPartnerManager.pushDeliveryPartnerInQueue(deliveryPartner);
+        orderManager.assignDeliveryPartner();
+    }
+
+    public void displayNotifications() {
+        List<Notification> notifications = notificationService.getNotifications(deliveryPartner.getId());
+        if (notifications.isEmpty()) {
+            System.out.println("No Notification yet!");
+            return;
+        }
+        System.out.println("INBOX:");
+        notificationService.displayNotifications(notifications);
+        notificationService.clearNotifications(deliveryPartner.getId());
+    }
+
+//    View pending deliveries
+//Access personal profile / update contact info
+}

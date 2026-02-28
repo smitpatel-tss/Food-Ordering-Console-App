@@ -42,7 +42,7 @@ public class ControlPanel {
         while (true) {
             controlPanelDisplay.displayAdminMenu();
             System.out.print("Choose Option From Menu: ");
-            int choice = Validate.validateIntLimit(14);
+            int choice = Validate.validateIntLimit(16);
 
             switch (choice) {
                 case 1: {
@@ -110,6 +110,14 @@ public class ControlPanel {
                     adminService.revenueDetails();
                     break;
                 }
+                case 15:{
+                    adminService.changePhoneNumber();
+                    break;
+                }
+                case 16:{
+                    adminService.changePassword();
+                    break;
+                }
                 case 0: {
                     System.out.println("Back...");
                     return;
@@ -136,7 +144,7 @@ public class ControlPanel {
                         customer=customerService.customerLogIn();
                     }catch (UserNotFoundException e){
                         System.out.println(e.getMessage());
-                        return;
+                        break;
                     }
                     customerService.setCustomer(customer);
                     customerSecondMenu();
@@ -157,7 +165,7 @@ public class ControlPanel {
 
             controlPanelDisplay.displayUserSecondMenu();
             System.out.print("Choose Option From Menu: ");
-            int choice = Validate.validateIntLimit(7);
+            int choice = Validate.validateIntLimit(9);
 
             switch (choice) {
                 case 1: {
@@ -203,6 +211,14 @@ public class ControlPanel {
                     customerService.displayNotifications();
                     break;
                 }
+                case 8:{
+                    customerService.changePhoneNumber();
+                    break;
+                }
+                case 9:{
+                    customerService.changePassword();
+                    break;
+                }
                 case 0: {
                     System.out.println("Back...");
                     return;
@@ -225,7 +241,7 @@ public class ControlPanel {
         while (true) {
             controlPanelDisplay.displayDeliveryPartnerMenu();
             System.out.print("Choose Option From Menu: ");
-            int choice = Validate.validateIntLimit(3);
+            int choice = Validate.validateIntLimit(5);
 
             switch (choice) {
                 case 1: {
@@ -242,6 +258,14 @@ public class ControlPanel {
                 }
                 case 3:{
                     deliveryPartnerService.displayNotifications();
+                    break;
+                }
+                case 4:{
+                    deliveryPartnerService.changePhoneNumber();
+                    break;
+                }
+                case 5:{
+                    deliveryPartnerService.changePassword();
                     break;
                 }
                 case 0: {

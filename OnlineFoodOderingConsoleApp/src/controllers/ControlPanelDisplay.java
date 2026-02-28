@@ -32,6 +32,8 @@ public class ControlPanelDisplay {
                 12. Broadcast Notification to all Delivery Partners
                 13. Notification Inbox
                 14. Sales Summary
+                15. Update Phone Number
+                16. Change Password
                 0. LogOut""");
         System.out.println("\n======================================================");
 
@@ -58,6 +60,8 @@ public class ControlPanelDisplay {
                 5. Display Available Discounts
                 6. Place Order
                 7. Notification Inbox
+                8. Update Phone Number
+                9. Change Password
                 0. LogOut""");
         System.out.println("\n======================================================");
 
@@ -70,8 +74,10 @@ public class ControlPanelDisplay {
                 1. Delivery Confirmation
                 2. Order History
                 3. Notification Inbox
+                4. Update Phone Number
+                5. Change Password
                 0. LogOut""");
-        System.out.print("\n======================================================");
+        System.out.println("\n======================================================");
 
     }
 }

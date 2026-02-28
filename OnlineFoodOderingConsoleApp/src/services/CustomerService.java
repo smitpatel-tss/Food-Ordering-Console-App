@@ -7,6 +7,7 @@ import factory.UserFactory;
 import model.*;
 import model.users.Customer;
 import model.users.User;
+import model.users.UserType;
 import payments.PaymentMode;
 import repositories.DiscountRepository;
 import repositories.MenuRepository;
@@ -41,13 +42,12 @@ public class CustomerService {
         userFactory = new UserFactory();
         userRepository = UserRepository.getInstance();
         orderRepository = OrderRepository.getInstance();
-        userService = new UserService();
+        userService = UserService.getInstance();
         notificationService = NotificationService.getInstance();
     }
 
     public void welcomeDisplay() {
-        System.out.println("\n________________________________________________________");
-        System.out.println("Hii, " + customer.getName() + "\nWelcome!");
+        System.out.println("\nHii, " + customer.getName() + "\nWelcome!");
     }
 
     public Customer getCustomer() {
@@ -120,13 +120,14 @@ public class CustomerService {
     }
 
     public void placeOrder() {
+        if (cart.getCart().isEmpty()) {
+            throw new CartEmptyException();
+        }
+
         System.out.println("Do you want to place an Order?(y/n): ");
         if(!Validate.validateYesNo()){
             System.out.println("Back to menu...");
             return;
-        }
-        if (cart.getCart().isEmpty()) {
-            throw new CartEmptyException();
         }
 
         PaymentMode paymentMode = paymentService.choosePaymentMethod(cart.getTotalCartPrice());
@@ -141,20 +142,20 @@ public class CustomerService {
 
     public void newCustomerRegister() {
 
-        User customer = userService.makeUser(3);
+        User customer = userService.makeUser(UserType.CUSTOMER);
 
         UserRepository.getInstance().addUser(customer);
 
-        System.out.println("New Customer "
+        System.out.println("✔ New Customer "
                 + customer.getName()
-                + " Registered with Phone Number "
+                + " Registered, with Phone Number "
                 + customer
                 .getAccountInfo().getPhoneNumber());
     }
 
     public Customer customerLogIn() {
         User oldUser = userService.authenticateUser();
-        if (oldUser == null) {
+        if (!(oldUser instanceof Customer)) {
             throw new UserNotFoundException("No Customer Found!");
         }
         return (Customer) oldUser;
@@ -165,14 +166,15 @@ public class CustomerService {
     }
 
     public void displayNotifications() {
-        List<Notification> notifications = notificationService.getNotifications(customer.getId());
-        if (notifications.isEmpty()) {
-            System.out.println("No Notification yet!");
-            return;
-        }
-        System.out.println("INBOX:");
-        notificationService.displayNotifications(notifications);
-        notificationService.clearNotifications(customer.getId());
+        userService.displayUserNotifications(customer);
+    }
+
+    public void changePassword(){
+        userService.changePassword(customer);
+    }
+
+    public void changePhoneNumber(){
+        userService.changeNumber(customer);
     }
 
 //    Update profile

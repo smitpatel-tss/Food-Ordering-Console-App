@@ -16,4 +16,12 @@ public class AccountInfo {
     public String getPassword() {
         return password;
     }
+
+    public void setPassword(String newPassword){
+        this.password=newPassword;
+    }
+
+    public void setPhoneNumber(String newPhoneNumber){
+        this.phoneNumber=newPhoneNumber;
+    }
 }

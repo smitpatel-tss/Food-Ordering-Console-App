@@ -7,9 +7,7 @@ import factory.FoodItemFactory;
 import factory.UserFactory;
 import model.Notification;
 import model.Order;
-import model.users.Admin;
-import model.users.DeliveryPartner;
-import model.users.User;
+import model.users.*;
 import repositories.DiscountRepository;
 import repositories.MenuRepository;
 import repositories.OrderRepository;
@@ -43,7 +41,7 @@ public class AdminService {
         this.deliveryPartnerManager = DeliveryPartnerManager.getInstance();
         this.discountService = DiscountService.getInstance();
         this.orderRepository = OrderRepository.getInstance();
-        userService = new UserService();
+        userService = UserService.getInstance();
         notificationService = NotificationService.getInstance();
     }
 
@@ -56,8 +54,7 @@ public class AdminService {
     }
 
     public void welcomeDisplay() {
-        System.out.println("\n________________________________________________________");
-        System.out.println("Hii, " + admin.getName() + "\nWelcome Back!");
+        System.out.println("\nHii, " + admin.getName() + "\nWelcome Back!");
     }
 
     public void displayMenu() {
@@ -126,7 +123,7 @@ public class AdminService {
 
     public void addNewDeliveryPartner() {
         System.out.println("ADDING NEW DELIVERY PARTNER:");
-        User newDeliveryPartner = userService.makeUser(2);
+        User newDeliveryPartner = userService.makeUser(UserType.DELIVERY_PARTNER);
         userRepository.addUser(newDeliveryPartner);
         deliveryPartnerManager.pushDeliveryPartnerInQueue((DeliveryPartner) newDeliveryPartner);
 
@@ -160,9 +157,10 @@ public class AdminService {
 
     public Admin adminLogIn() {
         User admin = userService.authenticateUser();
-        if (admin == null) {
+        if (!(admin instanceof Admin)) {
             throw new UserNotFoundException("No Admin Found!");
         }
+
         return (Admin) admin;
     }
 
@@ -178,8 +176,8 @@ public class AdminService {
             return;
         }
         System.out.println("CUSTOMERS:");
-        for (DeliveryPartner deliveryPartner : userRepository.getDeliveryPartners()) {
-            System.out.println(deliveryPartner);
+        for (Customer customer : userRepository.getCustomers()) {
+            System.out.println(customer);
         }
     }
 
@@ -197,14 +195,7 @@ public class AdminService {
     }
 
     public void displayNotifications() {
-        List<Notification> notifications = notificationService.getNotifications(admin.getId());
-        if (notifications.isEmpty()) {
-            System.out.println("No Notification yet!");
-            return;
-        }
-        System.out.println("INBOX:");
-        notificationService.displayNotifications(notifications);
-        notificationService.clearNotifications(admin.getId());
+        userService.displayUserNotifications(admin);
     }
 
     public void sendNotificationToCustomers() {
@@ -228,7 +219,15 @@ public class AdminService {
         int totalOrders = orderRepository.getAllOrders().size();
 
         System.out.println("Total Number Of Orders: " + totalOrders);
-        System.out.println("Total Earnings: " + totalRevenue);
+        System.out.println("Total Earnings        : " + totalRevenue);
+    }
+
+    public void changePassword(){
+        userService.changePassword(admin);
+    }
+
+    public void changePhoneNumber(){
+        userService.changeNumber(admin);
     }
 
     public void initializerMenu() {

@@ -77,4 +77,12 @@ public class UserRepository {
         return false;
     }
 
+//    public void changePassword(User user, String newPassword){
+//        user.getAccountInfo().setPassword(newPassword);
+//    }
+//
+//    public void changePhoneNumber(User user, String newPhoneNumber){
+//        user.getAccountInfo().setPhoneNumber(newPhoneNumber);
+//    }
+
 }

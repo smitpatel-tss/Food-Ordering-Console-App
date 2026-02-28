@@ -27,7 +27,7 @@ public class DeliveryPartnerService {
         deliveryPartnerManager = DeliveryPartnerManager.getInstance();
         orderManager = OrderManager.getOrderManagerInstance();
         orderRepository = OrderRepository.getInstance();
-        userService = new UserService();
+        userService = UserService.getInstance();
         notificationService = NotificationService.getInstance();
     }
 
@@ -40,8 +40,7 @@ public class DeliveryPartnerService {
     }
 
     public void welcomeDisplay() {
-        System.out.println("\n________________________________________________________");
-        System.out.println("Hii, " + deliveryPartner.getName() + "\nWelcome!");
+        System.out.println("\nHii, " + deliveryPartner.getName() + "\nWelcome!");
     }
 
     public void printOrdersHistory() {
@@ -53,7 +52,7 @@ public class DeliveryPartnerService {
 
     public DeliveryPartner deliveryPartnerLogIn() {
         User deliveryPartner = userService.authenticateUser();
-        if (deliveryPartner == null) {
+        if (!(deliveryPartner instanceof DeliveryPartner)) {
             throw new UserNotFoundException("No Delivery Partner Found!");
         }
         return (DeliveryPartner) deliveryPartner;
@@ -65,7 +64,7 @@ public class DeliveryPartnerService {
                         orderRepository
                                 .ordersFromDeliveryAgentId(deliveryPartner.getId()));
 
-        if (pendingOrders == null) {
+        if (pendingOrders == null || pendingOrders.isEmpty()) {
             System.out.println("Order not found!");
             return;
         }
@@ -98,14 +97,15 @@ public class DeliveryPartnerService {
     }
 
     public void displayNotifications() {
-        List<Notification> notifications = notificationService.getNotifications(deliveryPartner.getId());
-        if (notifications.isEmpty()) {
-            System.out.println("No Notification yet!");
-            return;
-        }
-        System.out.println("INBOX:");
-        notificationService.displayNotifications(notifications);
-        notificationService.clearNotifications(deliveryPartner.getId());
+        userService.displayUserNotifications(deliveryPartner);
+    }
+
+    public void changePassword(){
+        userService.changePassword(deliveryPartner);
+    }
+
+    public void changePhoneNumber(){
+        userService.changeNumber(deliveryPartner);
     }
 
 //    View pending deliveries

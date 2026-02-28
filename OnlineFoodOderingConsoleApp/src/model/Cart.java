@@ -37,10 +37,9 @@ public class Cart {
         }
 
         System.out.printf("%-4s %-25s %-10s %-5s %-10s%n",
-                "No.", "Item", "Price", "Qty", "Total");
+                "Id.", "Item", "Price", "Qty", "Total");
         System.out.println("-----------------------------------------------------------");
 
-        int i = 1;
         double total = 0;
 
         for (var entry : cart.entrySet()) {
@@ -50,7 +49,7 @@ public class Cart {
             total += itemTotal;
 
             System.out.printf("%-4d %-25s Rs.%-9.2f %-5d Rs.%-9.2f%n",
-                    i++, item.getName(), item.getPrice(), qty, itemTotal);
+                    item.getId(), item.getName(), item.getPrice(), qty, itemTotal);
         }
 
         System.out.println("-----------------------------------------------------------");

@@ -1,10 +1,7 @@
 package factory;
 
 import authentication.AccountInfo;
-import model.users.Admin;
-import model.users.Customer;
-import model.users.DeliveryPartner;
-import model.users.User;
+import model.users.*;
 import repositories.UserRepository;
 
 import java.util.Random;
@@ -12,14 +9,14 @@ import java.util.Random;
 public class UserFactory {
     static Random random=new Random();
 
-    public User getUser(String name, int choice, AccountInfo info){
-        if(choice==1){
+    public User getUser(String name, UserType type, AccountInfo info){
+        if(type==UserType.ADMIN){
             return new Admin(getUniqueId(),name,info);
         }
-        if(choice==2){
+        if(type==UserType.DELIVERY_PARTNER){
             return new DeliveryPartner(getUniqueId(),name,info);
         }
-        if(choice==3){
+        if(type==UserType.CUSTOMER){
             return new Customer(getUniqueId(),name,info);
         }
         return null;

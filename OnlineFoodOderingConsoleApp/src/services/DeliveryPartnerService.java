@@ -86,7 +86,6 @@ public class DeliveryPartnerService {
         System.out.println("Order Delivered...");
 
         deliveryPartnerManager.pushDeliveryPartnerInQueue(deliveryPartner);
-        orderManager.assignDeliveryPartner();
     }
 
     public void displayNotifications() {

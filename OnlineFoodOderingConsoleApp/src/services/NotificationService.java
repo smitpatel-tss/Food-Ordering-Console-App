@@ -47,7 +47,7 @@ public class NotificationService {
             customerIds.add(user.getId());
         }
         if (customerIds.isEmpty()) {
-            throw new UserNotFoundException("No Users Found!");
+            throw new UserNotFoundException("No Customers Found!");
         }
 
         for (Long userId : customerIds) {
@@ -61,7 +61,7 @@ public class NotificationService {
             customerIds.add(user.getId());
         }
         if (customerIds.isEmpty()) {
-            throw new UserNotFoundException("No Users Found!");
+            throw new UserNotFoundException("No Delivery Partners Found!");
         }
 
         for (Long userId : customerIds) {

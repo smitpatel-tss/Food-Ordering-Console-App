@@ -2,6 +2,8 @@ package repositories;
 
 import model.Order;
 import model.OrderStatus;
+import model.users.Customer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +65,9 @@ public class OrderRepository {
             return;
         }
         for (Order order : ordersList) {
-            System.out.println(order + " | Address: " + UserRepository.getInstance().getUserFromId(order.getCustomerId()).getAddress());
+            Customer c=UserRepository.getInstance().getUserFromId(order.getCustomerId());
+            String address=(c!=null)? c.getAddress():"Missing";
+            System.out.println(order + " | Address: " + address);
         }
     }
 

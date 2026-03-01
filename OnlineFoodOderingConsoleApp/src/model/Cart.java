@@ -10,6 +10,11 @@ public class Cart {
         cart=new HashMap<>();
     }
 
+    public Cart(Cart otherCart) {
+        this.cart = new HashMap<>(otherCart.cart);
+        this.totalCartPrice = otherCart.totalCartPrice;
+    }
+
     public void addItemToCart(FoodItem item,int quantity){
 
         cart.put(item,cart.getOrDefault(item,0)+quantity);

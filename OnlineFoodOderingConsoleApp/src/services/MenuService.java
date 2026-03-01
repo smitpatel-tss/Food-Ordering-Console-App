@@ -5,6 +5,8 @@ import model.Menu;
 import model.CuisineType;
 import repositories.MenuRepository;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MenuService {
@@ -62,26 +64,33 @@ public class MenuService {
     }
 
     public boolean removeItem(long id) {
-        for (CuisineType cuisine : menu.getMenu().keySet()) {
-            List<FoodItem> foodItems = menu.getMenu().get(cuisine);
 
-            for (FoodItem items : foodItems) {
-                if (items.getId() == id) {
-                    foodItems.remove(items);
+        for (List<FoodItem> foodItems : menu.getMenu().values()) {
+            Iterator<FoodItem> iterator = foodItems.iterator();
+            while (iterator.hasNext()) {
+                FoodItem item = iterator.next();
+
+                if (item.getId() == id) {
+                    iterator.remove();
                     return true;
                 }
             }
         }
+
         return false;
     }
 
     public boolean removeCuisine(long id) {
-        for (CuisineType cuisine : menu.getMenu().keySet()) {
-            if(cuisine.getId()==id){
+
+        List<CuisineType> cuisines = new ArrayList<>(menu.getMenu().keySet());
+
+        for (CuisineType cuisine : cuisines) {
+            if (cuisine.getId() == id) {
                 menu.getMenu().remove(cuisine);
                 return true;
             }
         }
+
         return false;
     }
 

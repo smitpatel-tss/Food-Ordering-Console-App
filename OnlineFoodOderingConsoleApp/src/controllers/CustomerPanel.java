@@ -27,8 +27,7 @@ public class CustomerPanel {
             switch (choice) {
 
                 case 1 -> {
-                    CustomerService tempService = new CustomerService(null);
-                    tempService.newCustomerRegister();
+                    authService.newCustomerRegister();
                 }
 
                 case 2 -> {
@@ -105,6 +104,8 @@ public class CustomerPanel {
                         customerService.placeOrder();
                     } catch (CartEmptyException e) {
                         System.out.println(e.getMessage());
+                    }catch (IllegalArgumentException e){
+                        System.out.println("Payment Error: "+e.getMessage());
                     }
                 }
                 case 5 -> customerService.displayMenu();

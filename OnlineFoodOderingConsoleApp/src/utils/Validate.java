@@ -168,14 +168,28 @@ public class Validate {
     }
 
     public static String validatePhoneNumber() {
+
         while (true) {
+
             String input = scanner.nextLine().trim();
 
-            if (input.matches("\\d{10}")) {
-                return input;
+            if (!input.matches("\\d+")) {
+                System.out.print("It must contain digits only: ");
+                continue;
             }
 
-            System.out.print("Enter valid 10-digit phone number: ");
+            if (input.length() != 10) {
+                System.out.print("It must be exactly 10 digits: ");
+                continue;
+            }
+
+            char firstDigit = input.charAt(0);
+            if (firstDigit < '6' || firstDigit > '9') {
+                System.out.print("It must start with 6, 7, 8 or 9: ");
+                continue;
+            }
+
+            return input;
         }
     }
 }

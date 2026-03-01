@@ -16,7 +16,7 @@ public class Order {
 
     public Order(Cart cart, Discount possibleDiscount, PaymentMode paymentMode, long customerId) {
         this.orderId=count++;
-        this.cart = cart;
+        this.cart = new Cart(cart);
         this.possibleDiscount = possibleDiscount;
         this.paymentMode = paymentMode;
         this.customerId = customerId;

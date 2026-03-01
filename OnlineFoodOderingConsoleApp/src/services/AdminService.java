@@ -227,7 +227,7 @@ public class AdminService {
             System.out.println("Menu is Empty!");
             return;
         }
-        System.out.println("Enter Item-Id:");
+        System.out.print("Enter Item-Id: ");
         long id = Validate.validatePositiveLong();
         if (menuService.removeItem(id)) {
             System.out.println("Removed successfully...");
@@ -247,7 +247,7 @@ public class AdminService {
         for (CuisineType cuisineType : cuisineList) {
             System.out.println(cuisineType.getId() + ". " + cuisineType.getName());
         }
-        System.out.print("Enter Id : ");
+        System.out.print("Enter Id: ");
         long id = Validate.validatePositiveLong();
 
         if (menuService.removeCuisine(id)) {

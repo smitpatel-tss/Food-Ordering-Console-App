@@ -1,11 +1,11 @@
 package test;
 
-import core.Application;
+import core.App;
 
 public class MainApp {
 
     public static void main(String[] args) {
-        Application application = new Application();
-        application.start();
+        App app = new App();
+        app.start();
     }
 }

@@ -6,8 +6,6 @@ import payments.UPI;
 import utils.Validate;
 
 
-import static utils.GlobalConstants.scanner;
-
 public class PaymentService {
 
     public PaymentMode choosePaymentMethod(double amount) {

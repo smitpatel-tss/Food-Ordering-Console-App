@@ -6,10 +6,8 @@ import model.CuisineType;
 import model.FoodItem;
 import factory.FoodItemFactory;
 import factory.UserFactory;
-import model.Notification;
 import model.Order;
 import model.users.*;
-import repositories.DiscountRepository;
 import repositories.MenuRepository;
 import repositories.OrderRepository;
 import repositories.UserRepository;
@@ -24,8 +22,6 @@ public class AdminService {
     private Admin admin;
     private static Map<CuisineType, List<FoodItem>> menu = MenuRepository.getMenuItemList();
     private MenuService menuService;
-    private OrderService orderService;
-    private UserFactory userFactory;
     private UserRepository userRepository;
     private DeliveryPartnerManager deliveryPartnerManager;
     private DiscountService discountService;
@@ -34,10 +30,8 @@ public class AdminService {
     private NotificationService notificationService;
 
     public AdminService(User admin) {
-        this.admin = (Admin)admin;
+        this.admin = (Admin) admin;
         this.menuService = MenuService.getInstance();
-        this.orderService = OrderService.getInstance();
-        this.userFactory = new UserFactory();
         this.userRepository = UserRepository.getInstance();
         this.deliveryPartnerManager = DeliveryPartnerManager.getInstance();
         this.discountService = DiscountService.getInstance();
@@ -67,7 +61,7 @@ public class AdminService {
         System.out.print("Add Cuisine Name: ");
         String cuisineName = Validate.validateCharAndNumberOnlyString();
         CuisineType newCuisineType = new CuisineType(cuisineName);
-        menu.put(newCuisineType, new ArrayList<FoodItem>());
+        menu.put(newCuisineType, new ArrayList<>());
         System.out.println(cuisineName + " Food Cuisine Type Successfully Added to Menu!");
     }
 
@@ -75,7 +69,7 @@ public class AdminService {
         System.out.println("ADDING NEW FOOD ITEM:");
         List<CuisineType> cuisineList = new ArrayList<>(menu.keySet());
 
-        if(cuisineList.isEmpty()){
+        if (cuisineList.isEmpty()) {
             System.out.println("No cuisine Available!");
             System.out.println("Add Cuisine First.");
             return;
@@ -151,6 +145,10 @@ public class AdminService {
             System.out.print("Enter Below 1 (1 means 100%): ");
             discount = Validate.validatePositiveDouble();
         }
+        if(discount==0){
+            System.out.println("It's not applicable!");
+            return;
+        }
         discountService.addNewDiscount(minimumAmount, discount);
     }
 
@@ -164,15 +162,6 @@ public class AdminService {
             System.out.println(deliveryPartner);
         }
     }
-
-    public Admin adminLogIn() {
-        User admin = userService.authenticateUser();
-        if (!(admin instanceof Admin)) {
-            throw new UserNotFoundException("No Admin Found!");
-        }
-        return (Admin) admin;
-    }
-
 
     public void displayDiscounts() {
         System.out.println("AVAILABLE DISCOUNTS: ");
@@ -231,26 +220,26 @@ public class AdminService {
         System.out.println("Total Earnings        : " + totalRevenue);
     }
 
-    public void removeItem(){
+    public void removeItem() {
         displayMenu();
         System.out.println("REMOVING FOOD ITEM:");
-        if(menu.isEmpty()){
+        if (menu.isEmpty()) {
             System.out.println("Menu is Empty!");
             return;
         }
         System.out.println("Enter Item-Id:");
-        long id=Validate.validatePositiveLong();
-        if(menuService.removeItem(id)){
+        long id = Validate.validatePositiveLong();
+        if (menuService.removeItem(id)) {
             System.out.println("Removed successfully...");
             return;
         }
         System.out.println("Item Not Exists!");
     }
 
-    public void removeCuisine(){
+    public void removeCuisine() {
         System.out.println("REMOVING CUISINE:");
         List<CuisineType> cuisineList = new ArrayList<>(menu.keySet());
-        if(cuisineList.isEmpty()){
+        if (cuisineList.isEmpty()) {
             System.out.println("No Cuisines Available!");
             return;
         }
@@ -259,24 +248,24 @@ public class AdminService {
             System.out.println(cuisineType.getId() + ". " + cuisineType.getName());
         }
         System.out.print("Enter Id : ");
-        long id=Validate.validatePositiveLong();
+        long id = Validate.validatePositiveLong();
 
-        if(menuService.removeCuisine(id)){
+        if (menuService.removeCuisine(id)) {
             System.out.println("Removed successfully...");
             return;
         }
         System.out.println("Cuisine Not Exists!");
     }
 
-    public void changePassword(){
+    public void changePassword() {
         userService.changePassword(admin);
     }
 
-    public void changePhoneNumber(){
+    public void changePhoneNumber() {
         userService.changeNumber(admin);
     }
 
-    public void displayPendingOrders(){
+    public void displayPendingOrders() {
         orderRepository.displayOrders(orderRepository.getPendingOrders());
     }
 

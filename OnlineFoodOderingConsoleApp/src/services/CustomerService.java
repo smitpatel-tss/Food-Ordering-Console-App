@@ -9,13 +9,11 @@ import model.users.Customer;
 import model.users.User;
 import model.users.UserType;
 import payments.PaymentMode;
-import repositories.DiscountRepository;
 import repositories.MenuRepository;
 import repositories.OrderRepository;
 import repositories.UserRepository;
 import utils.Validate;
 
-import java.util.List;
 
 public class CustomerService {
     private Customer customer;
@@ -26,20 +24,18 @@ public class CustomerService {
     private DiscountService discountService;
     private PaymentService paymentService;
     private InvoiceService invoiceService;
-    private UserFactory userFactory;
     private UserRepository userRepository;
     private UserService userService;
     private NotificationService notificationService;
 
     public CustomerService(User customer) {
-        this.customer =(Customer) customer;
+        this.customer = (Customer) customer;
         orderService = OrderService.getInstance();
         cart = new Cart();
         menuService = MenuService.getInstance();
         discountService = DiscountService.getInstance();
         paymentService = new PaymentService();
         invoiceService = new InvoiceService();
-        userFactory = new UserFactory();
         userRepository = UserRepository.getInstance();
         orderRepository = OrderRepository.getInstance();
         userService = UserService.getInstance();
@@ -125,20 +121,20 @@ public class CustomerService {
             throw new CartEmptyException();
         }
 
-        if(userRepository.getDeliveryPartners().isEmpty()){
+        if (userRepository.getDeliveryPartners().isEmpty()) {
             System.out.println("We're sorry! No Delivery Partners Available.");
             return;
         }
-
+        displayCart();
         System.out.println("Do you want to place an Order?(y/n): ");
-        if(!Validate.validateYesNo()){
+        if (!Validate.validateYesNo()) {
             System.out.println("Back to menu...");
             return;
         }
 
-        if(customer.getAddress()==null || customer.getAddress().isEmpty()){
+        if (customer.getAddress() == null || customer.getAddress().isEmpty()) {
             System.out.println("Enter Your Address:");
-            String address=Validate.validateNonEmptyString();
+            String address = Validate.validateNonEmptyString();
             customer.setAddress(address);
         }
 
@@ -165,19 +161,12 @@ public class CustomerService {
                 .getAccountInfo().getPhoneNumber());
     }
 
-    public Customer customerLogIn() {
-        User oldUser = userService.authenticateUser();
-        if (!(oldUser instanceof Customer)) {
-            throw new UserNotFoundException("No Customer Found!");
-        }
-        return (Customer) oldUser;
-    }
 
     public void emptyTheCart() {
         cart.emptyTheCart();
     }
 
-    public void displayMenu(){
+    public void displayMenu() {
         if (MenuRepository.isMenuEmpty()) {
             System.out.println("Menu is Empty!");
             return;
@@ -189,23 +178,23 @@ public class CustomerService {
         userService.displayUserNotifications(customer);
     }
 
-    public void changePassword(){
+    public void changePassword() {
         userService.changePassword(customer);
     }
 
-    public void changePhoneNumber(){
+    public void changePhoneNumber() {
         userService.changeNumber(customer);
     }
 
-    public void customerSupport(){
+    public void customerSupport() {
         System.out.println("CUSTOMER SUPPORT: ");
         System.out.print("Write Your Message: ");
-        String message=Validate.validateNonEmptyString();
+        String message = Validate.validateNonEmptyString();
         System.out.print("Do you really want to send?(Y/N): ");
-        if(!Validate.validateYesNo()){
+        if (!Validate.validateYesNo()) {
             return;
         }
-        notificationService.sendNotification(userRepository.getAdmin().getId(),message,customer.getName());
+        notificationService.sendNotification(userRepository.getAdmin().getId(), message, customer.getName());
         System.out.println("Message Sent...");
     }
 

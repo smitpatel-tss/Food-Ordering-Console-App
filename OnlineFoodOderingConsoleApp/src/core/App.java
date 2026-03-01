@@ -9,7 +9,7 @@ import repositories.UserRepository;
 import services.AdminService;
 import utils.Validate;
 
-public class Application {
+public class App {
 
     public void start() {
 
@@ -19,13 +19,11 @@ public class Application {
         CustomerPanel customerPanel = new CustomerPanel();
         DeliveryPartnerPanel deliveryPartnerPanel = new DeliveryPartnerPanel();
 
-        ControlPanelDisplay display = new ControlPanelDisplay();
-
         System.out.println("WELCOME TO OUR APP");
 
         while (true) {
 
-            display.displayMainMenu();
+            ControlPanelDisplay.displayMainMenu();
             System.out.print("Choose option: ");
             int choice = Validate.validateIntLimit(3);
 

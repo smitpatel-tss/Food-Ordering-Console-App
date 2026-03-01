@@ -37,7 +37,7 @@ public class DeliveryPartnerPanel {
         while (true) {
 
             ControlPanelDisplay.displayDeliveryPartnerMenu();
-            System.out.print("Choose Option From Menu: ");
+            System.out.print("Choose option : ");
             int choice = Validate.validateIntLimit(6);
 
             switch (choice) {
@@ -54,18 +54,18 @@ public class DeliveryPartnerPanel {
 
                 case 3 -> deliveryPartnerService.displayNotifications();
 
-                case 4 ->{
-                    try{
+                case 4 -> {
+                    try {
                         deliveryPartnerService.changePhoneNumber();
-                    }catch (IllegalArgumentException e){
+                    } catch (IllegalArgumentException e) {
                         System.out.println(e.getMessage());
                     }
                 }
 
                 case 5 -> {
-                    try{
+                    try {
                         deliveryPartnerService.changePassword();
-                    }catch (IllegalArgumentException e){
+                    } catch (IllegalArgumentException e) {
                         System.out.println(e.getMessage());
                     }
                 }
@@ -79,6 +79,4 @@ public class DeliveryPartnerPanel {
             }
         }
     }
-
-
 }

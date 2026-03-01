@@ -63,7 +63,7 @@ public class AdminPanel {
 
         while (true) {
             ControlPanelDisplay.displayOrderAndDiscountMenu();
-            System.out.print("Choose option: ");
+            System.out.print("Choose option : ");
             int choice = Validate.validateIntLimit(5);
 
             switch (choice) {
@@ -84,7 +84,7 @@ public class AdminPanel {
 
         while (true) {
             ControlPanelDisplay.displayUserManagementMenu();
-            System.out.print("Choose option: ");
+            System.out.print("Choose option : ");
             int choice = Validate.validateIntLimit(3);
 
             switch (choice) {
@@ -103,14 +103,14 @@ public class AdminPanel {
 
         while (true) {
             ControlPanelDisplay.displayNotificationManagementMenu();
-            System.out.print("Choose option: ");
+            System.out.print("Choose option : ");
             int choice = Validate.validateIntLimit(3);
 
             switch (choice) {
                 case 1 -> {
-                    try{
+                    try {
                         adminService.sendNotificationToCustomers();
-                    }catch (UserNotFoundException e){
+                    } catch (UserNotFoundException e) {
                         System.out.println(e.getMessage());
                     }
                 }
@@ -121,7 +121,7 @@ public class AdminPanel {
                         System.out.println(e.getMessage());
                     }
                 }
-                case 3 ->  {
+                case 3 -> {
                     try {
                         adminService.displayNotifications();
                     } catch (UserNotFoundException e) {
@@ -140,21 +140,21 @@ public class AdminPanel {
 
         while (true) {
             ControlPanelDisplay.displayCredentialManagementMenu();
-            System.out.print("Choose option: ");
+            System.out.print("Choose option : ");
             int choice = Validate.validateIntLimit(2);
 
             switch (choice) {
                 case 1 -> {
-                    try{
+                    try {
                         adminService.changePhoneNumber();
-                    }catch (IllegalArgumentException e){
+                    } catch (IllegalArgumentException e) {
                         System.out.println(e.getMessage());
                     }
                 }
                 case 2 -> {
-                    try{
+                    try {
                         adminService.changePassword();
-                    }catch (IllegalArgumentException e){
+                    } catch (IllegalArgumentException e) {
                         System.out.println(e.getMessage());
                     }
                 }
@@ -166,11 +166,11 @@ public class AdminPanel {
         }
     }
 
-    public void adminMenu(AdminService adminService){
+    public void adminMenu(AdminService adminService) {
 
-        while (true){
+        while (true) {
             ControlPanelDisplay.displayAdminMainMenuNew();
-            System.out.print("Choose Option From Menu: ");
+            System.out.print("Choose option : ");
             int choice = Validate.validateIntLimit(5);
             switch (choice) {
 

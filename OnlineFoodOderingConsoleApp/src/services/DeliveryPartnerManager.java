@@ -3,7 +3,6 @@ package services;
 import model.Order;
 import model.users.DeliveryPartner;
 import repositories.UserRepository;
-import utils.Validate;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -16,7 +15,7 @@ public class DeliveryPartnerManager {
         LinkedList<DeliveryPartner> tempLinkedlist = new LinkedList<>(UserRepository.
                 getInstance().getDeliveryPartners());
         deliveryPartners = new LinkedList<>(tempLinkedlist);
-        notificationService=NotificationService.getInstance();
+        notificationService = NotificationService.getInstance();
     }
 
     private static class InstanceContainer {
@@ -48,7 +47,5 @@ public class DeliveryPartnerManager {
     public boolean isDeliveryPartnerAvailable() {
         return !(deliveryPartners.isEmpty());
     }
-
-
 
 }

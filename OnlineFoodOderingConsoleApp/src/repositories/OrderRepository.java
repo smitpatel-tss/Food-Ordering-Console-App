@@ -2,7 +2,6 @@ package repositories;
 
 import model.Order;
 import model.OrderStatus;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +63,7 @@ public class OrderRepository {
             return;
         }
         for (Order order : ordersList) {
-            System.out.println(order+" | Address: "+UserRepository.getInstance().getUserFromId(order.getCustomerId()).getAddress());
+            System.out.println(order + " | Address: " + UserRepository.getInstance().getUserFromId(order.getCustomerId()).getAddress());
         }
     }
 
@@ -78,11 +77,11 @@ public class OrderRepository {
         displayOrders(allOrders);
     }
 
-    public List<Order> getPendingOrders(){
+    public List<Order> getPendingOrders() {
         List<Order> matchingOrders = new ArrayList<>();
 
         for (Order order : allOrders) {
-            if (order.getStatus()!=OrderStatus.DELIVERED) {
+            if (order.getStatus() != OrderStatus.DELIVERED) {
                 matchingOrders.add(order);
             }
         }

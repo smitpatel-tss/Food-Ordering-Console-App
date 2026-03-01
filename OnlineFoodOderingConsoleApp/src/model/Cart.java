@@ -31,7 +31,7 @@ public class Cart {
         System.out.println("\n======================== YOUR CART ========================");
 
         if (cart.isEmpty()) {
-            System.out.println("Cart is empty.");
+            System.out.println("NONE!");
             System.out.println("===========================================================\n");
             return;
         }

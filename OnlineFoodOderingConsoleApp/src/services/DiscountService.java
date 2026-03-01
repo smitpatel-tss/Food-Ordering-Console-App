@@ -33,10 +33,6 @@ public class DiscountService {
         discountRepository.getDiscounts().add(new PriceDiscount(minimumAmount, discount));
     }
 
-//    public Discount getDiscountFromId(int id){
-//
-//    }
-
     public Discount giveMaxPossibleDiscount(double amount) {
         double maxPossibleDiscount = 0;
         Discount possibleDiscount = null;

@@ -3,7 +3,6 @@ package services;
 import authentication.AccountInfo;
 import factory.UserFactory;
 import model.Notification;
-import model.users.DeliveryPartner;
 import model.users.User;
 import model.users.UserType;
 import repositories.UserRepository;
@@ -18,8 +17,8 @@ public class UserService {
 
     private UserService() {
         userFactory = new UserFactory();
-        userRepository=UserRepository.getInstance();
-        notificationService=NotificationService.getInstance();
+        userRepository = UserRepository.getInstance();
+        notificationService = NotificationService.getInstance();
     }
 
     private static class InstanceContainer {
@@ -74,34 +73,34 @@ public class UserService {
         return null;
     }
 
-    public void changePassword(User user){
+    public void changePassword(User user) {
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null");
         }
         System.out.print("Enter Current Password : ");
-        String oldPassword=Validate.validatePassword();
+        String oldPassword = Validate.validatePassword();
 
-        if(!userRepository.passwordCheck(user.getAccountInfo().getPhoneNumber(),oldPassword)){
+        if (!userRepository.passwordCheck(user.getAccountInfo().getPhoneNumber(), oldPassword)) {
             System.out.println("✖ Incorrect Password.");
             return;
         }
         System.out.print("Enter New Password     : ");
-        String newPassword=Validate.validatePassword();
+        String newPassword = Validate.validatePassword();
 
-        while(user.getAccountInfo().getPassword().equals(newPassword)){
+        while (user.getAccountInfo().getPassword().equals(newPassword)) {
             System.out.println("New password cannot be same as old password.");
             System.out.print("Enter different Password: ");
-            newPassword=Validate.validatePassword();
+            newPassword = Validate.validatePassword();
         }
         System.out.println("Confirm password change? (Y/N) : ");
-        if(!Validate.validateYesNo()){
+        if (!Validate.validateYesNo()) {
             return;
         }
         user.getAccountInfo().setPassword(newPassword);
         System.out.println("✔ Password Changed Successfully.");
     }
 
-    public void changeNumber(User user){
+    public void changeNumber(User user) {
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null");
         }
@@ -109,7 +108,7 @@ public class UserService {
         System.out.print("Enter Phone number: ");
         String number = Validate.validatePhoneNumber();
         while (!userRepository.canAddNumber(number)) {
-            if(user.getAccountInfo().getPhoneNumber().equals(number)){
+            if (user.getAccountInfo().getPhoneNumber().equals(number)) {
                 System.out.println("✖ This number is already linked to your account.");
                 return;
             }
@@ -118,7 +117,7 @@ public class UserService {
             number = Validate.validatePhoneNumber();
         }
         System.out.println("Confirm phone number change? (Y/N) : ");
-        if(!Validate.validateYesNo()){
+        if (!Validate.validateYesNo()) {
             return;
         }
         user.getAccountInfo().setPhoneNumber(number);

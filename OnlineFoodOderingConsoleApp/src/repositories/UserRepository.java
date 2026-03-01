@@ -4,7 +4,6 @@ import model.users.Admin;
 import model.users.Customer;
 import model.users.DeliveryPartner;
 import model.users.User;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,16 +77,16 @@ public class UserRepository {
         return false;
     }
 
-    public Customer getUserFromId(long id){
+    public Customer getUserFromId(long id) {
         for (User user : users) {
-            if (user.getId()==id && user instanceof Customer) {
+            if (user.getId() == id && user instanceof Customer) {
                 return (Customer) user;
             }
         }
         return null;
     }
 
-    public Admin getAdmin(){
+    public Admin getAdmin() {
         for (User user : users) {
             if (user instanceof Admin) {
                 return (Admin) user;
@@ -95,13 +94,5 @@ public class UserRepository {
         }
         return null;
     }
-
-//    public void changePassword(User user, String newPassword){
-//        user.getAccountInfo().setPassword(newPassword);
-//    }
-//
-//    public void changePhoneNumber(User user, String newPhoneNumber){
-//        user.getAccountInfo().setPhoneNumber(newPhoneNumber);
-//    }
 
 }

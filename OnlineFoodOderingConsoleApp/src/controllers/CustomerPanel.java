@@ -32,7 +32,7 @@ public class CustomerPanel {
                 }
 
                 case 2 -> {
-                    loginAndMainMenu();
+                    logInToMainMenu();
                 }
 
                 case 0 -> {
@@ -44,27 +44,54 @@ public class CustomerPanel {
     }
 
 
-    private void customerSecondMenuOld(CustomerService customerService) {
+    private void logInToMainMenu() {
+        try {
+            Customer customer = authService.loginCustomer();
+            CustomerService customerService = new CustomerService(customer);
+
+            customerService.welcomeDisplay();
+
+            while (true) {
+                ControlPanelDisplay.displayCustomerMainMenu();
+                System.out.print("Choose option : ");
+
+                int choice = Validate.validateIntLimit(3);
+
+                switch (choice) {
+                    case 1 -> ordersManagement(customerService);
+                    case 2 -> historyAndNotifications(customerService);
+                    case 3 -> accountAndSupport(customerService);
+                    case 0 -> {
+                        System.out.println("Logging out...");
+                        return;
+                    }
+                    default -> System.out.println("Invalid option!");
+                }
+            }
+
+        } catch (UserNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    private void ordersManagement(CustomerService customerService) {
 
         while (true) {
+            ControlPanelDisplay.displayOrdersManagementMenu();
+            System.out.print("Choose option : ");
 
-            ControlPanelDisplay.displayUserSecondMenu();
-            System.out.print("Choose Option From Menu: ");
-            int choice = Validate.validateIntLimit(11);
+            int choice = Validate.validateIntLimit(6);
 
             switch (choice) {
-
-                case 1 -> customerService.showHistory();
-
-                case 2 -> {
+                case 1 -> {
                     try {
                         customerService.addItemToCart();
                     } catch (ItemNotFoundException e) {
                         System.out.println(e.getMessage());
                     }
                 }
-
-                case 3 -> {
+                case 2 -> {
                     try {
                         customerService.displayCart();
                         customerService.removeItemFromCart();
@@ -72,179 +99,76 @@ public class CustomerPanel {
                         System.out.println(e.getMessage());
                     }
                 }
-
-                case 4 -> customerService.displayCart();
-
-                case 5 -> customerService.displayDiscounts();
-
-                case 6 -> {
+                case 3 -> customerService.displayCart();
+                case 4 -> {
                     try {
                         customerService.placeOrder();
                     } catch (CartEmptyException e) {
                         System.out.println(e.getMessage());
                     }
                 }
-
-                case 7 -> customerService.displayNotifications();
-
-                case 8 -> {
-                    try{
-                        customerService.changePhoneNumber();
-                    }catch (IllegalArgumentException e){
-                        System.out.println(e.getMessage());
-                    }
-                }
-
-                case 9 -> {
-                    try{
-                        customerService.changePassword();
-                    }catch (IllegalArgumentException e){
-                        System.out.println(e.getMessage());
-                    }
-                }
-
-                case 10 -> customerService.customerSupport();
-
-                case 11 -> customerService.displayMenu();
-
+                case 5 -> customerService.displayMenu();
+                case 6 -> customerService.displayDiscounts();
                 case 0 -> {
-                    System.out.println("Logging out...");
+                    System.out.println("Back...");
                     return;
                 }
+                default -> System.out.println("Invalid option!");
             }
         }
     }
 
+    private void historyAndNotifications(CustomerService customerService) {
 
-        private void loginAndMainMenu() {
-            try {
-                Customer customer = authService.loginCustomer();
-                CustomerService customerService = new CustomerService(customer);
+        while (true) {
+            ControlPanelDisplay.displayHistoryNotificationsMenu();
+            System.out.print("Choose option : ");
 
-                customerService.welcomeDisplay();
+            int choice = Validate.validateIntLimit(2);
 
-                while (true) {
-                    ControlPanelDisplay.displayCustomerMainMenu();
-                    System.out.print("Choose option: ");
-
-                    int choice = Validate.validateIntLimit(3);
-
-                    switch (choice) {
-                        case 1 -> ordersManagement(customerService);
-                        case 2 -> historyAndNotifications(customerService);
-                        case 3 -> accountAndSupport(customerService);
-                        case 0 -> {
-                            System.out.println("Logging out...");
-                            return;
-                        }
-                        default -> System.out.println("Invalid option!");
-                    }
+            switch (choice) {
+                case 1 -> customerService.showHistory();
+                case 2 -> customerService.displayNotifications();
+                case 0 -> {
+                    System.out.println("Back...");
+                    return;
                 }
-
-            } catch (UserNotFoundException e) {
-                System.out.println(e.getMessage());
+                default -> System.out.println("Invalid option!");
             }
         }
+    }
 
+    private void accountAndSupport(CustomerService customerService) {
 
-        private void ordersManagement(CustomerService customerService) {
+        while (true) {
+            ControlPanelDisplay.displayAccountSupportMenu();
+            System.out.print("Choose option : ");
 
-            while (true) {
-                ControlPanelDisplay.displayOrdersManagementMenu();
-                System.out.print("Choose option: ");
+            int choice = Validate.validateIntLimit(3);
 
-                int choice = Validate.validateIntLimit(6);
-
-                switch (choice) {
-                    case 1 -> {
-                        try {
-                            customerService.addItemToCart();
-                        }
-                        catch (ItemNotFoundException e) {
-                            System.out.println(e.getMessage());
-                        }
+            switch (choice) {
+                case 1 -> {
+                    try {
+                        customerService.changePhoneNumber();
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
                     }
-                    case 2 -> {
-                        try {
-                            customerService.displayCart();
-                            customerService.removeItemFromCart();
-                        }
-                        catch (CartEmptyException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
-                    case 3 -> customerService.displayCart();
-                    case 4 -> {
-                        try {
-                            customerService.placeOrder();
-                        }
-                        catch (CartEmptyException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
-                    case 5 -> customerService.displayMenu();
-                    case 6 -> customerService.displayDiscounts();
-                    case 0 -> {
-                        System.out.println("Back...");
-                        return;
-                    }
-                    default -> System.out.println("Invalid option!");
                 }
+                case 2 -> {
+                    try {
+                        customerService.changePassword();
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+                case 3 -> customerService.customerSupport();
+                case 0 -> {
+                    System.out.println("Back...");
+                    return;
+                }
+                default -> System.out.println("Invalid option!");
             }
         }
-
-        private void historyAndNotifications(CustomerService customerService) {
-
-            while (true) {
-                ControlPanelDisplay.displayHistoryNotificationsMenu();
-                System.out.print("Choose option: ");
-
-                int choice = Validate.validateIntLimit(2);
-
-                switch (choice) {
-                    case 1 -> customerService.showHistory();
-                    case 2 -> customerService.displayNotifications();
-                    case 0 -> {
-                        System.out.println("Back...");
-                        return;
-                    }
-                    default -> System.out.println("Invalid option!");
-                }
-            }
-        }
-
-        private void accountAndSupport(CustomerService customerService) {
-
-            while (true) {
-                ControlPanelDisplay.displayAccountSupportMenu();
-                System.out.print("Choose option: ");
-
-                int choice = Validate.validateIntLimit(3);
-
-                switch (choice) {
-                    case 1 -> {
-                        try {
-                            customerService.changePhoneNumber();
-                        } catch (IllegalArgumentException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
-                    case 2 -> {
-                        try {
-                            customerService.changePassword();
-                        }
-                        catch (IllegalArgumentException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
-                    case 3 -> customerService.customerSupport();
-                    case 0 -> {
-                        System.out.println("Back...");
-                        return;
-                    }
-                    default -> System.out.println("Invalid option!");
-                }
-            }
-        }
+    }
 
 }

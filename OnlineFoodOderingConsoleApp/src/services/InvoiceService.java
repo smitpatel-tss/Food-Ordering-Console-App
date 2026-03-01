@@ -2,7 +2,6 @@ package services;
 
 import model.FoodItem;
 import model.Order;
-import payments.PaymentMode;
 
 public class InvoiceService {
 

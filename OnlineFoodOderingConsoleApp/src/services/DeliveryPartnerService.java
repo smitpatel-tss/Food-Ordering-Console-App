@@ -2,12 +2,10 @@ package services;
 
 import exceptions.OrderNotFoundException;
 import exceptions.UserNotFoundException;
-import model.Notification;
 import model.Order;
 import model.OrderStatus;
 import model.users.DeliveryPartner;
 import model.users.User;
-import repositories.DiscountRepository;
 import repositories.OrderRepository;
 import repositories.UserRepository;
 import utils.Validate;
@@ -18,20 +16,19 @@ public class DeliveryPartnerService {
     private DeliveryPartner deliveryPartner;
     private DeliveryPartnerManager deliveryPartnerManager;
     private OrderManager orderManager;
-    private OrderService orderService;
     private OrderRepository orderRepository;
     private UserService userService;
     private NotificationService notificationService;
     private UserRepository userRepository;
 
     public DeliveryPartnerService(User deliveryPartner) {
-        this.deliveryPartner =(DeliveryPartner) deliveryPartner;
+        this.deliveryPartner = (DeliveryPartner) deliveryPartner;
         deliveryPartnerManager = DeliveryPartnerManager.getInstance();
         orderManager = OrderManager.getOrderManagerInstance();
         orderRepository = OrderRepository.getInstance();
         userService = UserService.getInstance();
         notificationService = NotificationService.getInstance();
-        userRepository=UserRepository.getInstance();
+        userRepository = UserRepository.getInstance();
     }
 
     public DeliveryPartner getDeliveryPartner() {
@@ -53,13 +50,6 @@ public class DeliveryPartnerService {
         orderRepository.displayOrders(orders);
     }
 
-    public DeliveryPartner deliveryPartnerLogIn() {
-        User deliveryPartner = userService.authenticateUser();
-        if (!(deliveryPartner instanceof DeliveryPartner)) {
-            throw new UserNotFoundException("No Delivery Partner Found!");
-        }
-        return (DeliveryPartner) deliveryPartner;
-    }
 
     public void confirmDelivery() {
         List<Order> pendingOrders = orderRepository
@@ -103,22 +93,22 @@ public class DeliveryPartnerService {
         userService.displayUserNotifications(deliveryPartner);
     }
 
-    public void changePassword(){
+    public void changePassword() {
         userService.changePassword(deliveryPartner);
     }
 
-    public void changePhoneNumber(){
+    public void changePhoneNumber() {
         userService.changeNumber(deliveryPartner);
     }
 
-    public void reportIssue(){
+    public void reportIssue() {
         System.out.println("Write Your issue: ");
-        String message= Validate.validateNonEmptyString();
+        String message = Validate.validateNonEmptyString();
         System.out.print("Do you really want to send?(Y/N): ");
-        if(!Validate.validateYesNo()){
+        if (!Validate.validateYesNo()) {
             return;
         }
-        notificationService.sendNotification(userRepository.getAdmin().getId(),message,"DELIVERY PARTNER: "+deliveryPartner.getName());
+        notificationService.sendNotification(userRepository.getAdmin().getId(), message, "DELIVERY PARTNER: " + deliveryPartner.getName());
         System.out.println("Message sent...");
     }
 }

@@ -10,11 +10,13 @@ import java.util.Queue;
 
 public class DeliveryPartnerManager {
     private Queue<DeliveryPartner> deliveryPartners;
+    NotificationService notificationService;
 
     private DeliveryPartnerManager() {
         LinkedList<DeliveryPartner> tempLinkedlist = new LinkedList<>(UserRepository.
                 getInstance().getDeliveryPartners());
         deliveryPartners = new LinkedList<>(tempLinkedlist);
+        notificationService=NotificationService.getInstance();
     }
 
     private static class InstanceContainer {
@@ -34,6 +36,12 @@ public class DeliveryPartnerManager {
         if (deliveryPartners.isEmpty()) {
             return;
         }
+        notificationService.sendNotification(
+                deliveryPartners.peek().getId(),
+                "New order is Assigned to you... Order id: " + order.getOrderId(),
+                "ADMIN"
+        );
+
         order.setDeliveryPartner(deliveryPartners.poll());
     }
 

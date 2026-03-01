@@ -100,9 +100,21 @@ public class CustomerPanel {
 
                 case 7 -> customerService.displayNotifications();
 
-                case 8 -> customerService.changePhoneNumber();
+                case 8 -> {
+                    try{
+                        customerService.changePhoneNumber();
+                    }catch (IllegalArgumentException e){
+                        System.out.println(e.getMessage());
+                    }
+                }
 
-                case 9 -> customerService.changePassword();
+                case 9 -> {
+                    try{
+                        customerService.changePassword();
+                    }catch (IllegalArgumentException e){
+                        System.out.println(e.getMessage());
+                    }
+                }
 
                 case 10 -> customerService.customerSupport();
 

@@ -73,8 +73,15 @@ public class AdminService {
 
     public void addNewFoodItem() {
         System.out.println("ADDING NEW FOOD ITEM:");
-        System.out.println("Available Cuisine Type: ");
         List<CuisineType> cuisineList = new ArrayList<>(menu.keySet());
+
+        if(cuisineList.isEmpty()){
+            System.out.println("No cuisine Available!");
+            System.out.println("Add Cuisine First.");
+            return;
+        }
+        System.out.println("Available Cuisine Type: ");
+
         int index = 0;
         for (CuisineType cuisineType : cuisineList) {
             System.out.println(index + ". " + cuisineType.getName());
@@ -225,7 +232,12 @@ public class AdminService {
     }
 
     public void removeItem(){
+        displayMenu();
         System.out.println("REMOVING FOOD ITEM:");
+        if(menu.isEmpty()){
+            System.out.println("Menu is Empty!");
+            return;
+        }
         System.out.println("Enter Item-Id:");
         long id=Validate.validatePositiveLong();
         if(menuService.removeItem(id)){
@@ -237,8 +249,18 @@ public class AdminService {
 
     public void removeCuisine(){
         System.out.println("REMOVING CUISINE:");
-        System.out.println("Enter Cuisine-Id:");
+        List<CuisineType> cuisineList = new ArrayList<>(menu.keySet());
+        if(cuisineList.isEmpty()){
+            System.out.println("No Cuisines Available!");
+            return;
+        }
+        System.out.println("Available Cuisine Type with their IDs: ");
+        for (CuisineType cuisineType : cuisineList) {
+            System.out.println(cuisineType.getId() + ". " + cuisineType.getName());
+        }
+        System.out.print("Enter Id : ");
         long id=Validate.validatePositiveLong();
+
         if(menuService.removeCuisine(id)){
             System.out.println("Removed successfully...");
             return;

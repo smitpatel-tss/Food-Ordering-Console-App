@@ -54,9 +54,21 @@ public class DeliveryPartnerPanel {
 
                 case 3 -> deliveryPartnerService.displayNotifications();
 
-                case 4 -> deliveryPartnerService.changePhoneNumber();
+                case 4 ->{
+                    try{
+                        deliveryPartnerService.changePhoneNumber();
+                    }catch (IllegalArgumentException e){
+                        System.out.println(e.getMessage());
+                    }
+                }
 
-                case 5 -> deliveryPartnerService.changePassword();
+                case 5 -> {
+                    try{
+                        deliveryPartnerService.changePassword();
+                    }catch (IllegalArgumentException e){
+                        System.out.println(e.getMessage());
+                    }
+                }
 
                 case 6 -> deliveryPartnerService.reportIssue();
 
@@ -67,4 +79,6 @@ public class DeliveryPartnerPanel {
             }
         }
     }
+
+
 }

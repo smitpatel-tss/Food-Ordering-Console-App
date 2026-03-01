@@ -31,22 +31,17 @@ public class AdminPanel {
         }
     }
 
-    private void adminMenu(AdminService adminService) {
+    public void menuManagement(AdminService adminService) {
 
         while (true) {
-
-            ControlPanelDisplay.displayAdminMenu();
-            System.out.print("Choose Option From Menu: ");
-            int choice = Validate.validateIntLimit(19);
+            ControlPanelDisplay.displayMenuManagementMenu();
+            System.out.print("Choose option: ");
+            int choice = Validate.validateIntLimit(6);
 
             switch (choice) {
-
                 case 1 -> adminService.displayMenu();
-
                 case 2 -> adminService.addCuisineType();
-
                 case 3 -> adminService.addNewFoodItem();
-
                 case 4 -> {
                     try {
                         adminService.changePrice();
@@ -54,48 +49,136 @@ public class AdminPanel {
                         System.out.println(e.getMessage());
                     }
                 }
+                case 5 -> adminService.removeItem();
+                case 6 -> adminService.removeCuisine();
+                case 0 -> {
+                    System.out.println("Back...");
+                    return;
+                }
+            }
+        }
+    }
 
-                case 5 -> adminService.printAllOrders();
+    public void orderAndDiscountManagement(AdminService adminService) {
 
-                case 6 -> adminService.addNewDeliveryPartner();
+        while (true) {
+            ControlPanelDisplay.displayOrderAndDiscountMenu();
+            System.out.print("Choose option: ");
+            int choice = Validate.validateIntLimit(5);
 
-                case 7 -> adminService.addDiscount();
+            switch (choice) {
+                case 1 -> adminService.printAllOrders();
+                case 2 -> adminService.displayPendingOrders();
+                case 3 -> adminService.revenueDetails();
+                case 4 -> adminService.addDiscount();
+                case 5 -> adminService.displayDiscounts();
+                case 0 -> {
+                    System.out.println("Back...");
+                    return;
+                }
+            }
+        }
+    }
 
-                case 8 -> adminService.showDeliveryPartners();
+    public void userManagement(AdminService adminService) {
 
-                case 9 -> adminService.displayAllCustomers();
+        while (true) {
+            ControlPanelDisplay.displayUserManagementMenu();
+            System.out.print("Choose option: ");
+            int choice = Validate.validateIntLimit(3);
 
-                case 10 -> adminService.displayDiscounts();
+            switch (choice) {
+                case 1 -> adminService.addNewDeliveryPartner();
+                case 2 -> adminService.showDeliveryPartners();
+                case 3 -> adminService.displayAllCustomers();
+                case 0 -> {
+                    System.out.println("Back...");
+                    return;
+                }
+            }
+        }
+    }
 
-                case 11 -> adminService.sendNotificationToCustomers();
+    public void notificationManagement(AdminService adminService) {
 
-                case 12 -> {
+        while (true) {
+            ControlPanelDisplay.displayNotificationManagementMenu();
+            System.out.print("Choose option: ");
+            int choice = Validate.validateIntLimit(3);
+
+            switch (choice) {
+                case 1 -> {
+                    try{
+                        adminService.sendNotificationToCustomers();
+                    }catch (UserNotFoundException e){
+                        System.out.println(e.getMessage());
+                    }
+                }
+                case 2 -> {
                     try {
                         adminService.sendNotificationToDeliveryPartners();
                     } catch (UserNotFoundException e) {
                         System.out.println(e.getMessage());
                     }
                 }
-
-                case 13 -> {
+                case 3 ->  {
                     try {
                         adminService.displayNotifications();
                     } catch (UserNotFoundException e) {
                         System.out.println(e.getMessage());
                     }
                 }
+                case 0 -> {
+                    System.out.println("Back...");
+                    return;
+                }
+            }
+        }
+    }
 
-                case 14 -> adminService.revenueDetails();
+    public void manageCredentials(AdminService adminService) {
 
-                case 15 -> adminService.changePhoneNumber();
+        while (true) {
+            ControlPanelDisplay.displayCredentialManagementMenu();
+            System.out.print("Choose option: ");
+            int choice = Validate.validateIntLimit(2);
 
-                case 16 -> adminService.changePassword();
+            switch (choice) {
+                case 1 -> {
+                    try{
+                        adminService.changePhoneNumber();
+                    }catch (IllegalArgumentException e){
+                        System.out.println(e.getMessage());
+                    }
+                }
+                case 2 -> {
+                    try{
+                        adminService.changePassword();
+                    }catch (IllegalArgumentException e){
+                        System.out.println(e.getMessage());
+                    }
+                }
+                case 0 -> {
+                    System.out.println("Back...");
+                    return;
+                }
+            }
+        }
+    }
 
-                case 17 -> adminService.displayPendingOrders();
+    public void adminMenu(AdminService adminService){
 
-                case 18 -> adminService.removeItem();
+        while (true){
+            ControlPanelDisplay.displayAdminMainMenuNew();
+            System.out.print("Choose Option From Menu: ");
+            int choice = Validate.validateIntLimit(5);
+            switch (choice) {
 
-                case 19 -> adminService.removeCuisine();
+                case 1 -> menuManagement(adminService);
+                case 2 -> orderAndDiscountManagement(adminService);
+                case 3 -> userManagement(adminService);
+                case 4 -> notificationManagement(adminService);
+                case 5 -> manageCredentials(adminService);
 
                 case 0 -> {
                     System.out.println("Logging out...");

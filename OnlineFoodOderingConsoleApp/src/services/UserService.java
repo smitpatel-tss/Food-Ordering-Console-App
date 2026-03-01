@@ -40,7 +40,7 @@ public class UserService {
 
         System.out.print("Phone Number  : ");
         String number = Validate.validatePhoneNumber();
-        while (!UserRepository.getInstance().canAddNumber(number)) {
+        while (!userRepository.canAddNumber(number)) {
             System.out.println("✖ Number already registered.");
             System.out.print("Enter Different Number : ");
             number = Validate.validatePhoneNumber();
@@ -62,13 +62,22 @@ public class UserService {
         System.out.print("Enter Password    : ");
         String password = Validate.validatePassword();
 
-        if (userRepository.passwordCheck(number, password)) {
-            return userRepository.getUserFromNumber(number);
+        User user = userRepository.getUserFromNumber(number);
+
+        if (user == null) {
+            return null;
         }
+        if (userRepository.passwordCheck(number, password)) {
+            return user;
+        }
+
         return null;
     }
 
     public void changePassword(User user){
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
         System.out.print("Enter Current Password : ");
         String oldPassword=Validate.validatePassword();
 
@@ -93,6 +102,10 @@ public class UserService {
     }
 
     public void changeNumber(User user){
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+
         System.out.print("Enter Phone number: ");
         String number = Validate.validatePhoneNumber();
         while (!userRepository.canAddNumber(number)) {

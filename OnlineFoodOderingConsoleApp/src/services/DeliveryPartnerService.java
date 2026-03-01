@@ -119,5 +119,6 @@ public class DeliveryPartnerService {
             return;
         }
         notificationService.sendNotification(userRepository.getAdmin().getId(),message,"DELIVERY PARTNER: "+deliveryPartner.getName());
+        System.out.println("Message sent...");
     }
 }

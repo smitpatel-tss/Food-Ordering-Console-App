@@ -18,15 +18,11 @@ public class ControlPanel {
     private AdminService adminService;
     private CustomerService customerService;
     private DeliveryPartnerService deliveryPartnerService;
-    private ControlPanelDisplay controlPanelDisplay;
-    private MenuService menuService;
 
     public ControlPanel(AdminService adminService, CustomerService customerService, DeliveryPartnerService deliveryPartnerService) {
         this.adminService = adminService;
         this.customerService = customerService;
         this.deliveryPartnerService = deliveryPartnerService;
-        controlPanelDisplay=new ControlPanelDisplay();
-        menuService=MenuService.getInstance();
     }
 
     public void adminPanel() {
@@ -40,9 +36,9 @@ public class ControlPanel {
         adminService.setAdmin(admin);
         adminService.welcomeDisplay();
         while (true) {
-            controlPanelDisplay.displayAdminMenu();
+            ControlPanelDisplay.displayAdminMenu();
             System.out.print("Choose Option From Menu: ");
-            int choice = Validate.validateIntLimit(16);
+            int choice = Validate.validateIntLimit(19);
 
             switch (choice) {
                 case 1: {
@@ -58,7 +54,11 @@ public class ControlPanel {
                     break;
                 }
                 case 4: {
-                    adminService.changePrice();
+                    try{
+                        adminService.changePrice();
+                    }catch(ItemNotFoundException e){
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 }
                 case 5: {
@@ -118,6 +118,18 @@ public class ControlPanel {
                     adminService.changePassword();
                     break;
                 }
+                case 17:{
+                    adminService.displayPendingOrders();
+                    break;
+                }
+                case 18:{
+                    adminService.removeItem();
+                    break;
+                }
+                case 19:{
+                    adminService.removeCuisine();
+                    break;
+                }
                 case 0: {
                     System.out.println("Back...");
                     return;
@@ -129,7 +141,7 @@ public class ControlPanel {
     public void customerFirstMenu() {
         customerService.emptyTheCart();
         while (true) {
-            controlPanelDisplay.displayUserFirstMenu();
+            ControlPanelDisplay.displayUserFirstMenu();
             System.out.print("Choose Option From Menu: ");
             int choice = Validate.validateIntLimit(2);
 
@@ -163,9 +175,9 @@ public class ControlPanel {
         customerService.welcomeDisplay();
         while (true) {
 
-            controlPanelDisplay.displayUserSecondMenu();
+            ControlPanelDisplay.displayUserSecondMenu();
             System.out.print("Choose Option From Menu: ");
-            int choice = Validate.validateIntLimit(9);
+            int choice = Validate.validateIntLimit(11);
 
             switch (choice) {
                 case 1: {
@@ -174,7 +186,6 @@ public class ControlPanel {
                 }
                 case 2: {
 
-                    menuService.displayMenu();
                     try{
                         customerService.addItemToCart();
                     }catch (ItemNotFoundException e){
@@ -219,6 +230,14 @@ public class ControlPanel {
                     customerService.changePassword();
                     break;
                 }
+                case 10:{
+                    customerService.customerSupport();
+                    break;
+                }
+                case 11:{
+                    customerService.displayMenu();
+                    break;
+                }
                 case 0: {
                     System.out.println("Back...");
                     return;
@@ -239,9 +258,9 @@ public class ControlPanel {
         deliveryPartnerService.setDeliveryPartner(deliveryPartner);
         deliveryPartnerService.welcomeDisplay();
         while (true) {
-            controlPanelDisplay.displayDeliveryPartnerMenu();
+            ControlPanelDisplay.displayDeliveryPartnerMenu();
             System.out.print("Choose Option From Menu: ");
-            int choice = Validate.validateIntLimit(5);
+            int choice = Validate.validateIntLimit(6);
 
             switch (choice) {
                 case 1: {
@@ -266,6 +285,10 @@ public class ControlPanel {
                 }
                 case 5:{
                     deliveryPartnerService.changePassword();
+                    break;
+                }
+                case 6:{
+                    deliveryPartnerService.reportIssue();
                     break;
                 }
                 case 0: {

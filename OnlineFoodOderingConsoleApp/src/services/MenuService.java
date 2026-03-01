@@ -48,14 +48,6 @@ public class MenuService {
         System.out.println("\n======================================================\n");
     }
 
-    public void changeName(int id, String newName) {
-        getItemFromId(id).setName(newName);
-    }
-
-    public void changePrice(int id, double newPrice) {
-        getItemFromId(id).setPrice(newPrice);
-    }
-
     public FoodItem getItemFromId(long id) {
         for (CuisineType cuisine : menu.getMenu().keySet()) {
             List<FoodItem> foodItems = menu.getMenu().get(cuisine);
@@ -67,6 +59,30 @@ public class MenuService {
             }
         }
         return null;
+    }
+
+    public boolean removeItem(long id) {
+        for (CuisineType cuisine : menu.getMenu().keySet()) {
+            List<FoodItem> foodItems = menu.getMenu().get(cuisine);
+
+            for (FoodItem items : foodItems) {
+                if (items.getId() == id) {
+                    foodItems.remove(items);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean removeCuisine(long id) {
+        for (CuisineType cuisine : menu.getMenu().keySet()) {
+            if(cuisine.getId()==id){
+                menu.getMenu().remove(cuisine);
+                return true;
+            }
+        }
+        return false;
     }
 
 }

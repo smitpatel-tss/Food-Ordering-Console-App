@@ -64,7 +64,7 @@ public class OrderRepository {
             return;
         }
         for (Order order : ordersList) {
-            System.out.println(order);
+            System.out.println(order+" | Address: "+UserRepository.getInstance().getUserFromId(order.getCustomerId()).getAddress());
         }
     }
 
@@ -76,6 +76,17 @@ public class OrderRepository {
 
     public void displayAllOrders() {
         displayOrders(allOrders);
+    }
+
+    public List<Order> getPendingOrders(){
+        List<Order> matchingOrders = new ArrayList<>();
+
+        for (Order order : allOrders) {
+            if (order.getStatus()!=OrderStatus.DELIVERED) {
+                matchingOrders.add(order);
+            }
+        }
+        return matchingOrders;
     }
 
 }

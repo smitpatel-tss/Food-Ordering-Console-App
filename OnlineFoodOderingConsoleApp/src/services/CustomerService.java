@@ -68,6 +68,7 @@ public class CustomerService {
             System.out.println("Menu is Empty!");
             return;
         }
+        menuService.displayMenu();
         System.out.print("Enter Item id: ");
         long id = Validate.validatePositiveLong();
 
@@ -124,10 +125,21 @@ public class CustomerService {
             throw new CartEmptyException();
         }
 
+        if(userRepository.getDeliveryPartners().isEmpty()){
+            System.out.println("We're sorry! No Delivery Partners Available.");
+            return;
+        }
+
         System.out.println("Do you want to place an Order?(y/n): ");
         if(!Validate.validateYesNo()){
             System.out.println("Back to menu...");
             return;
+        }
+
+        if(customer.getAddress()==null || customer.getAddress().isEmpty()){
+            System.out.println("Enter Your Address:");
+            String address=Validate.validateNonEmptyString();
+            customer.setAddress(address);
         }
 
         PaymentMode paymentMode = paymentService.choosePaymentMethod(cart.getTotalCartPrice());
@@ -165,6 +177,14 @@ public class CustomerService {
         cart.emptyTheCart();
     }
 
+    public void displayMenu(){
+        if (MenuRepository.isMenuEmpty()) {
+            System.out.println("Menu is Empty!");
+            return;
+        }
+        menuService.displayMenu();
+    }
+
     public void displayNotifications() {
         userService.displayUserNotifications(customer);
     }
@@ -177,9 +197,16 @@ public class CustomerService {
         userService.changeNumber(customer);
     }
 
-//    Update profile
-//Track real-time delivery status
-//Repeat previous orders quickly
-//    Wishlist for items not currently available
-//Chat support for order issues
+    public void customerSupport(){
+        System.out.println("CUSTOMER SUPPORT: ");
+        System.out.print("Write Your Message: ");
+        String message=Validate.validateNonEmptyString();
+        System.out.print("Do you really want to send?(Y/N): ");
+        if(!Validate.validateYesNo()){
+            return;
+        }
+        notificationService.sendNotification(userRepository.getAdmin().getId(),message,customer.getName());
+        System.out.println("Message Sent...");
+    }
+
 }

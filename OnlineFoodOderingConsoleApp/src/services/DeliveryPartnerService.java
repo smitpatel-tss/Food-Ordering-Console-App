@@ -9,6 +9,7 @@ import model.users.DeliveryPartner;
 import model.users.User;
 import repositories.DiscountRepository;
 import repositories.OrderRepository;
+import repositories.UserRepository;
 import utils.Validate;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class DeliveryPartnerService {
     private OrderRepository orderRepository;
     private UserService userService;
     private NotificationService notificationService;
+    private UserRepository userRepository;
 
     public DeliveryPartnerService(User deliveryPartner) {
         this.deliveryPartner =(DeliveryPartner) deliveryPartner;
@@ -29,6 +31,7 @@ public class DeliveryPartnerService {
         orderRepository = OrderRepository.getInstance();
         userService = UserService.getInstance();
         notificationService = NotificationService.getInstance();
+        userRepository=UserRepository.getInstance();
     }
 
     public DeliveryPartner getDeliveryPartner() {
@@ -108,6 +111,13 @@ public class DeliveryPartnerService {
         userService.changeNumber(deliveryPartner);
     }
 
-//    View pending deliveries
-//Access personal profile / update contact info
+    public void reportIssue(){
+        System.out.println("Write Your issue: ");
+        String message= Validate.validateNonEmptyString();
+        System.out.print("Do you really want to send?(Y/N): ");
+        if(!Validate.validateYesNo()){
+            return;
+        }
+        notificationService.sendNotification(userRepository.getAdmin().getId(),message,"DELIVERY PARTNER: "+deliveryPartner.getName());
+    }
 }

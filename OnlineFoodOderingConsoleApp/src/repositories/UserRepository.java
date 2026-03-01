@@ -1,5 +1,6 @@
 package repositories;
 
+import model.users.Admin;
 import model.users.Customer;
 import model.users.DeliveryPartner;
 import model.users.User;
@@ -75,6 +76,24 @@ public class UserRepository {
             return true;
         }
         return false;
+    }
+
+    public Customer getUserFromId(long id){
+        for (User user : users) {
+            if (user.getId()==id && user instanceof Customer) {
+                return (Customer) user;
+            }
+        }
+        return null;
+    }
+
+    public Admin getAdmin(){
+        for (User user : users) {
+            if (user instanceof Admin) {
+                return (Admin) user;
+            }
+        }
+        return null;
     }
 
 //    public void changePassword(User user, String newPassword){

@@ -3,6 +3,7 @@ package services;
 import model.Order;
 import model.users.DeliveryPartner;
 import repositories.UserRepository;
+import utils.Validate;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -39,6 +40,7 @@ public class DeliveryPartnerManager {
     public boolean isDeliveryPartnerAvailable() {
         return !(deliveryPartners.isEmpty());
     }
+
 
 
 }

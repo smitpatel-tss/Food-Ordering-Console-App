@@ -1,7 +1,7 @@
 package controllers;
 
 public class ControlPanelDisplay {
-    public void displayMainMenu(){
+    public static void displayMainMenu(){
         System.out.println("""
                 \n------------------------------------------------------
                 => MAIN MENU:
@@ -14,7 +14,7 @@ public class ControlPanelDisplay {
 
     }
 
-    public void displayAdminMenu(){
+    public static void displayAdminMenu(){
         System.out.println("""
                 \n=> ADMIN MENU:
                 ------------------------------------------------------
@@ -34,11 +34,14 @@ public class ControlPanelDisplay {
                 14. Sales Summary
                 15. Update Phone Number
                 16. Change Password
+                17. Display Pending Orders
+                18. Remove item from menu
+                19. Remove Cuisine type from menu
                 0. LogOut""");
         System.out.println("\n======================================================");
 
     }
-    public void displayUserFirstMenu(){
+    public static void displayUserFirstMenu(){
         System.out.println("""
                 \n=> USER MENU:
                 ------------------------------------------------------
@@ -49,7 +52,7 @@ public class ControlPanelDisplay {
 
     }
 
-    public void displayUserSecondMenu(){
+    public static void displayUserSecondMenu(){
         System.out.println("""
                 \n=> USER - FOOD ORDERING MENU:
                 ------------------------------------------------------
@@ -62,12 +65,14 @@ public class ControlPanelDisplay {
                 7. Notification Inbox
                 8. Update Phone Number
                 9. Change Password
+                10. Customer Support
+                11. Display Menu
                 0. LogOut""");
         System.out.println("\n======================================================");
 
     }
 
-    public void displayDeliveryPartnerMenu(){
+    public static void displayDeliveryPartnerMenu(){
         System.out.println("""
                 \n=> Delivery Partner MENU:
                 ------------------------------------------------------
@@ -76,6 +81,7 @@ public class ControlPanelDisplay {
                 3. Notification Inbox
                 4. Update Phone Number
                 5. Change Password
+                6. Report Issue
                 0. LogOut""");
         System.out.println("\n======================================================");
 

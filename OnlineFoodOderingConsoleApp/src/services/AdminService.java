@@ -1,5 +1,6 @@
 package services;
 
+import exceptions.ItemNotFoundException;
 import exceptions.UserNotFoundException;
 import model.CuisineType;
 import model.FoodItem;
@@ -62,6 +63,7 @@ public class AdminService {
     }
 
     public void addCuisineType() {
+        System.out.println("ADDING NEW CUISINE:");
         System.out.print("Add Cuisine Name: ");
         String cuisineName = Validate.validateCharAndNumberOnlyString();
         CuisineType newCuisineType = new CuisineType(cuisineName);
@@ -70,6 +72,7 @@ public class AdminService {
     }
 
     public void addNewFoodItem() {
+        System.out.println("ADDING NEW FOOD ITEM:");
         System.out.println("Available Cuisine Type: ");
         List<CuisineType> cuisineList = new ArrayList<>(menu.keySet());
         int index = 0;
@@ -99,14 +102,14 @@ public class AdminService {
     public void changePrice() {
         menuService.displayMenu();
 
-        System.out.print("Enter Id of Food item, to change it's price: ");
+        System.out.println("CHANGING PRICE: ");
+        System.out.print("Enter Item-Id: ");
         long id = Validate.validatePositiveLong();
 
         FoodItem item = menuService.getItemFromId(id);
 
         if (item == null) {
-            System.out.println("No Matching item Found!");
-            return;
+            throw new ItemNotFoundException("No Such Item Exists!");
         }
         System.out.println("Current Price of " + item.getName() + " is " + item.getPrice());
         System.out.print("Enter New Price: ");
@@ -160,7 +163,6 @@ public class AdminService {
         if (!(admin instanceof Admin)) {
             throw new UserNotFoundException("No Admin Found!");
         }
-
         return (Admin) admin;
     }
 
@@ -222,12 +224,38 @@ public class AdminService {
         System.out.println("Total Earnings        : " + totalRevenue);
     }
 
+    public void removeItem(){
+        System.out.println("REMOVING FOOD ITEM:");
+        System.out.println("Enter Item-Id:");
+        long id=Validate.validatePositiveLong();
+        if(menuService.removeItem(id)){
+            System.out.println("Removed successfully...");
+            return;
+        }
+        System.out.println("Item Not Exists!");
+    }
+
+    public void removeCuisine(){
+        System.out.println("REMOVING CUISINE:");
+        System.out.println("Enter Cuisine-Id:");
+        long id=Validate.validatePositiveLong();
+        if(menuService.removeCuisine(id)){
+            System.out.println("Removed successfully...");
+            return;
+        }
+        System.out.println("Cuisine Not Exists!");
+    }
+
     public void changePassword(){
         userService.changePassword(admin);
     }
 
     public void changePhoneNumber(){
         userService.changeNumber(admin);
+    }
+
+    public void displayPendingOrders(){
+        orderRepository.displayOrders(orderRepository.getPendingOrders());
     }
 
     public void initializerMenu() {
@@ -254,8 +282,4 @@ public class AdminService {
         menu.get(italian).add(FoodItemFactory.getFoodItemInstance("Margherita Pizza", 250.0, italian));
         menu.get(italian).add(FoodItemFactory.getFoodItemInstance("Garlic Bread", 90.0, italian));
     }
-
-//    Remove food item from menu
-//    Remove cuisine type
-//    View pending deliveries
 }

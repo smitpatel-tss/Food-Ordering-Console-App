@@ -94,7 +94,7 @@ public class Validate {
 
     public static String validateNonEmptyString() {
         while (true) {
-            String temp = scanner.nextLine().trim(); // remove leading/trailing spaces
+            String temp = scanner.nextLine();
             if (!temp.isEmpty()) {
                 return temp;
             }
@@ -172,14 +172,10 @@ public class Validate {
             String input = scanner.nextLine().trim();
 
             if (input.matches("\\d{10}")) {
-                try {
-                    return input;
-                } catch (NumberFormatException e) {
-                    System.out.print("Invalid number. Enter valid 10-digit phone number: ");
-                }
-            } else {
-                System.out.print("Enter valid 10-digit phone number: ");
+                return input;
             }
+
+            System.out.print("Enter valid 10-digit phone number: ");
         }
     }
 }

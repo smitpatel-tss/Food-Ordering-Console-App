@@ -4,6 +4,7 @@ import authentication.AccountInfo;
 import controllers.*;
 import factory.UserFactory;
 import model.users.Admin;
+import model.users.DeliveryPartner;
 import model.users.UserType;
 import repositories.UserRepository;
 import services.AdminService;
@@ -23,18 +24,22 @@ public class App {
 
         while (true) {
 
-            ControlPanelDisplay.displayMainMenu();
-            System.out.print("Choose option: ");
-            int choice = Validate.validateIntLimit(3);
+            try{
+                ControlPanelDisplay.displayMainMenu();
+                System.out.print("Choose option: ");
+                int choice = Validate.validateIntLimit(3);
 
-            switch (choice) {
-                case 1 -> adminPanel.start();
-                case 2 -> customerPanel.start();
-                case 3 -> deliveryPartnerPanel.start();
-                case 0 -> {
-                    System.out.println("EXITING...");
-                    return;
+                switch (choice) {
+                    case 1 -> adminPanel.start();
+                    case 2 -> customerPanel.start();
+                    case 3 -> deliveryPartnerPanel.start();
+                    case 0 -> {
+                        System.out.println("EXITING...");
+                        return;
+                    }
                 }
+            } catch (Exception e) {
+                System.out.println("Something Went Wrong!");
             }
         }
     }
@@ -48,5 +53,6 @@ public class App {
 
         UserRepository.getInstance().addUser(admin);
         new AdminService(admin).initializerMenu();
+
     }
 }

@@ -167,7 +167,7 @@ public class Validate {
         }
     }
 
-    public static String validatePhoneNumber() {
+    public static long validatePhoneNumber() {
 
         while (true) {
 
@@ -189,7 +189,7 @@ public class Validate {
                 continue;
             }
 
-            return input;
+            return Long.parseLong(input);
         }
     }
 }

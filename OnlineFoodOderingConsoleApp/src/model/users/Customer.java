@@ -7,11 +7,13 @@ public class Customer implements User{
     private String name;
     private AccountInfo accountInfo;
     private String address;
+    private UserType userType;
 
     public Customer(long id, String name, AccountInfo accountInfo) {
         this.id = id;
         this.name = name;
         this.accountInfo=accountInfo;
+        this.userType=UserType.CUSTOMER;
     }
 
     public AccountInfo getAccountInfo(){
@@ -32,6 +34,10 @@ public class Customer implements User{
 
     public String getName() {
         return name;
+    }
+
+    public UserType getUserType(){
+        return userType;
     }
 
     @Override

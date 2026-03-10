@@ -6,11 +6,13 @@ public class DeliveryPartner implements User{
     private long id;
     private String name;
     private AccountInfo accountInfo;
+    private UserType userType;
 
     public DeliveryPartner(long id, String name, AccountInfo accountInfo) {
         this.id = id;
         this.name = name;
         this.accountInfo=accountInfo;
+        this.userType=UserType.DELIVERY_PARTNER;
     }
 
     public long getId(){
@@ -23,6 +25,10 @@ public class DeliveryPartner implements User{
 
     public AccountInfo getAccountInfo(){
         return accountInfo;
+    }
+
+    public UserType getUserType(){
+        return userType;
     }
 
     @Override

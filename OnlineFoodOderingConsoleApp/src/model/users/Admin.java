@@ -6,11 +6,13 @@ public class Admin implements User{
     private long id;
     private String name;
     private AccountInfo accountInfo;
+    private UserType userType;
 
     public Admin(long id, String name, AccountInfo accountInfo) {
         this.id = id;
         this.name = name;
         this.accountInfo=accountInfo;
+        this.userType=UserType.ADMIN;
     }
 
     public AccountInfo getAccountInfo(){
@@ -23,5 +25,9 @@ public class Admin implements User{
 
     public String getName() {
         return name;
+    }
+
+    public UserType getUserType(){
+        return userType;
     }
 }

@@ -50,23 +50,23 @@ public class UserRepository {
         users.add(newUser);
     }
 
-    public User getUserFromNumber(String number) {
+    public User getUserFromNumber(long number) {
         for (User user : users) {
-            if (user.getAccountInfo().getPhoneNumber().equals(number)) {
+            if (user.getAccountInfo().getPhoneNumber()==number) {
                 return user;
             }
         }
         return null;
     }
 
-    public boolean canAddNumber(String number) {
+    public boolean canAddNumber(long number) {
         if (getUserFromNumber(number) == null) {
             return true;
         }
         return false;
     }
 
-    public boolean passwordCheck(String number, String password) {
+    public boolean passwordCheck(long number, String password) {
         User user = getUserFromNumber(number);
         if (user == null) {
             return false;

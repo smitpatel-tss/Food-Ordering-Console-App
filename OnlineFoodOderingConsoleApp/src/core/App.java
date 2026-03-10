@@ -49,7 +49,7 @@ public class App {
         UserFactory factory = new UserFactory();
         Admin admin = (Admin) factory.getUser(
                 "Smit", UserType.ADMIN,
-                new AccountInfo("7069209810", "smit1234"));
+                new AccountInfo(7069209810L, "smit1234"));
 
         UserRepository.getInstance().addUser(admin);
         new AdminService(admin).initializerMenu();

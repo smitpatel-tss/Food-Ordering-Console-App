@@ -1,0 +1,59 @@
+erDiagram
+    USER {
+        long id PK
+        string name
+        long phone
+        string password
+        string address
+        string userType
+    }
+
+    CUISINE_TYPE {
+        long id PK
+        string name
+    }
+
+    FOOD_ITEM {
+        long id PK
+        string name
+        double price
+        boolean available
+        long cuisineId FK
+    }
+
+    PRICE_DISCOUNT {
+        int id PK
+        double minimumAmount
+        double discount
+    }
+
+    ORDER {
+        long orderId PK
+        long customerId FK
+        long deliveryPartnerId FK
+        int discountId FK
+        double finalAmount
+        string status
+        string paymentMode
+    }
+
+    ORDER_ITEM {
+        long orderId PK, FK
+        long foodItemId PK, FK
+        int quantity
+    }
+
+    NOTIFICATION {
+        int id PK
+        long userId FK
+        string from
+        string message
+    }
+
+    USER ||--o{ ORDER : places
+    ORDER ||--|{ ORDER_ITEM : contains
+    FOOD_ITEM ||--|{ ORDER_ITEM : is_in
+    CUISINE_TYPE ||--o{ FOOD_ITEM : has
+    PRICE_DISCOUNT ||--o{ ORDER : applies_to
+    USER ||--o{ NOTIFICATION : receives
+    USER ||--o{ NOTIFICATION : sends

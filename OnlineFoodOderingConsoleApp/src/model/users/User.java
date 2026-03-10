@@ -6,4 +6,5 @@ public interface User {
     long getId();
     String getName();
     AccountInfo getAccountInfo();
+    UserType getUserType();
 }

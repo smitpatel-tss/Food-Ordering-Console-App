@@ -1,15 +1,15 @@
 package authentication;
 
 public class AccountInfo {
-    private String phoneNumber;
+    private long phoneNumber;
     private String password;
 
-    public AccountInfo(String phoneNumber, String password) {
+    public AccountInfo(long phoneNumber, String password) {
         this.phoneNumber = phoneNumber;
         this.password = password;
     }
 
-    public String getPhoneNumber() {
+    public long getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -21,7 +21,7 @@ public class AccountInfo {
         this.password = newPassword;
     }
 
-    public void setPhoneNumber(String newPhoneNumber) {
+    public void setPhoneNumber(long newPhoneNumber) {
         this.phoneNumber = newPhoneNumber;
     }
 }

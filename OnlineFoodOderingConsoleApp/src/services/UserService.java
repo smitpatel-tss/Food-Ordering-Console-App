@@ -38,7 +38,7 @@ public class UserService {
         String name = Validate.validateCharOnlyString();
 
         System.out.print("Phone Number  : ");
-        String number = Validate.validatePhoneNumber();
+        long number = Validate.validatePhoneNumber();
         while (!userRepository.canAddNumber(number)) {
             System.out.println("✖ Number already registered.");
             System.out.print("Enter Different Number : ");
@@ -57,7 +57,7 @@ public class UserService {
         System.out.println("=================================");
 
         System.out.print("Enter Phone number: ");
-        String number = Validate.validatePhoneNumber();
+        long number = Validate.validatePhoneNumber();
         System.out.print("Enter Password    : ");
         String password = Validate.validatePassword();
 
@@ -106,9 +106,9 @@ public class UserService {
         }
 
         System.out.print("Enter Phone number: ");
-        String number = Validate.validatePhoneNumber();
+        long number = Validate.validatePhoneNumber();
         while (!userRepository.canAddNumber(number)) {
-            if (user.getAccountInfo().getPhoneNumber().equals(number)) {
+            if (user.getAccountInfo().getPhoneNumber()==number) {
                 System.out.println("✖ This number is already linked to your account.");
                 return;
             }
